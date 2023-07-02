@@ -1,4 +1,5 @@
-# cloudflare-ddns-for-synology
+# Cloudflare DDNS for Synology
+
 Using Cloudflare DDNS for Synology DSM 7.x
 
 ### Access Synology via SSH
