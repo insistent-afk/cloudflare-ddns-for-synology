@@ -7,7 +7,7 @@ Using Cloudflare DDNS for Synology DSM 7.x
 2. Go to Control Panel > Terminal & SNMP > Enable SSH service
 3. Use your client to access Synology via SSH.
 4. Use your Synology admin account to connect.
-5. Use Command 'sudo -i' to Root
+5. Use Command `sudo -i` to Root
 
 ### Run commands in Synology
 
