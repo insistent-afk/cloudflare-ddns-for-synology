@@ -38,7 +38,7 @@ EOF
 
 ```
 
-## IP v6
+## IP v6 (Optional)
 
 ```
 wget https://raw.githubusercontent.com/insistent-afk/cloudflare-ddns-for-synology/main/cloudflare-ddns-v6.sh -O /sbin/cloudflare-ddns-v6.sh
