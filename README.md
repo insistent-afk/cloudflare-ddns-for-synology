@@ -34,6 +34,7 @@ cat >> /etc.defaults/ddns_provider.conf << 'EOF'
         queryurl=https://www.cloudflare.com
         website=https://www.cloudflare.com
 EOF
+
 ```
 
 enjoy
@@ -59,6 +60,7 @@ cat >> /etc.defaults/ddns_provider.conf << 'EOF'
         queryurl=https://www.cloudflare.com
         website=https://www.cloudflare.com
 EOF
+
 ```
 
 enjoy
