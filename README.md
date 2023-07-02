@@ -37,8 +37,6 @@ EOF
 
 ```
 
-enjoy
-
 ## IP v6
 
 ```
@@ -63,8 +61,6 @@ EOF
 
 ```
 
-enjoy
-
 ## Get Cloudflare parameters
 
 1. Go to your domain overview page and copy your zone ID.
@@ -80,5 +76,4 @@ enjoy
    - Username/Email: `<Zone ID>`
    - Password Key: `<API Token>`
 
-enjoy
 Thank you original from [joshuaavalon/SynologyCloudflareDDNS](https://github.com/joshuaavalon/SynologyCloudflareDDNS/)
