@@ -81,3 +81,4 @@ enjoy
    - Password Key: `<API Token>`
 
 enjoy
+Thank you original from [joshuaavalon/SynologyCloudflareDDNS](https://github.com/joshuaavalon/SynologyCloudflareDDNS/)
