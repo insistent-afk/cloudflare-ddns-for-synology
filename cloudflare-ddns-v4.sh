@@ -21,8 +21,6 @@ if [[ $count -ne 1 ]]; then
 fi
 email=$(echo "$text" | cut -d '|' -f 1)
 password=$(echo "$text" | cut -d '|' -f 2)
-echo $email;
-echo $password;
 
 #Fetch and filter IPv6, if Synology won't provide it
 if [[ $ipv6 = "true" ]]; then
