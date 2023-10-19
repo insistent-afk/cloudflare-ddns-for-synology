@@ -8,10 +8,19 @@ ipv6="true"
 # ask for existing proxy, don't override it <.<
 
 # DSM Config
+# $2 => "xxx@qq.com|api_key"
 username="$1"
-password="$2"
+text="$2"
 hostname="$3"
 ipAddr="$4"
+
+count=$(echo "$text" | grep -o "|" | wc -l)
+if [[ $count -ne 1 ]]; then
+    echo "badparam";
+    exit 1;
+fi
+email=$(echo "$text" | cut -d '|' -f 1)
+password=$(echo "$text" | cut -d '|' -f 2)
 
 #Fetch and filter IPv6, if Synology won't provide it
 if [[ $ipv6 = "true" ]]; then
@@ -37,12 +46,12 @@ listDnsApi="https://api.cloudflare.com/client/v4/zones/${username}/dns_records?t
 # above only, if IPv4 and/or IPv6 is provided
 listDnsv6Api="https://api.cloudflare.com/client/v4/zones/${username}/dns_records?type=${recType6}&name=${hostname}" # if only IPv4 is provided
 
-res=$(curl -s -X GET "$listDnsApi" -H "Authorization: Bearer $password" -H "Content-Type:application/json")
+res=$(curl -s -X GET "$listDnsApi"  -H "X-Auth-Email: $email" -H "X-Auth-Key: $password" -H "Content-Type:application/json")
 resSuccess=$(echo "$res" | jq -r ".success")
 
 
 if [[ $ipv6 = "true" ]]; then ## Adding new commands, if Synology didn't provided IPv6
-resv6=$(curl -s -X GET "$listDnsv6Api" -H "Authorization: Bearer $password" -H "Content-Type:application/json");
+resv6=$(curl -s -X GET "$listDnsv6Api"  -H "X-Auth-Email: $email" -H "X-Auth-Key: $password" -H "Content-Type:application/json");
 fi
 
 if [[ $resSuccess != "true" ]]; then
@@ -75,19 +84,19 @@ fi
 if [[ $recordId = "null" ]]; then
     # Record not exists
 	proxy="true" # new Record. Enable proxy by default
-    res=$(curl -s -X POST "$createDnsApi" -H "Authorization: Bearer $password" -H "Content-Type:application/json" --data "{\"type\":\"$recordType\",\"name\":\"$hostname\",\"content\":\"$ipAddr\",\"proxied\":$proxy}")
+    res=$(curl -s -X POST "$createDnsApi"  -H "X-Auth-Email: $email" -H "X-Auth-Key: $password" -H "Content-Type:application/json" --data "{\"type\":\"$recordType\",\"name\":\"$hostname\",\"content\":\"$ipAddr\",\"proxied\":$proxy}")
 else
     # Record exists
-    res=$(curl -s -X PUT "$updateDnsApi" -H "Authorization: Bearer $password" -H "Content-Type:application/json" --data "{\"type\":\"$recordType\",\"name\":\"$hostname\",\"content\":\"$ipAddr\",\"proxied\":$recordProx}")
+    res=$(curl -s -X PUT "$updateDnsApi"  -H "X-Auth-Email: $email" -H "X-Auth-Key: $password" -H "Content-Type:application/json" --data "{\"type\":\"$recordType\",\"name\":\"$hostname\",\"content\":\"$ipAddr\",\"proxied\":$recordProx}")
 fi
 if [[ $ipv6 = "true" ]] ; then
 	if [[ $recordIdv6 = "null" ]]; then
     # IPv6 Record not exists
 	proxy="true"; # new entry, enable proxy by default
-    res6=$(curl -s -X POST "$createDnsApi" -H "Authorization: Bearer $password" -H "Content-Type:application/json" --data "{\"type\":\"$recType6\",\"name\":\"$hostname\",\"content\":\"$ip6Addr\",\"proxied\":$proxy}");
+    res6=$(curl -s -X POST "$createDnsApi"  -H "X-Auth-Email: $email" -H "X-Auth-Key: $password" -H "Content-Type:application/json" --data "{\"type\":\"$recType6\",\"name\":\"$hostname\",\"content\":\"$ip6Addr\",\"proxied\":$proxy}");
 	else
     # IPv6 Record exists
-    res6=$(curl -s -X PUT "$update6DnsApi" -H "Authorization: Bearer $password" -H "Content-Type:application/json" --data "{\"type\":\"$recType6\",\"name\":\"$hostname\",\"content\":\"$ip6Addr\",\"proxied\":$recordProxv6}");
+    res6=$(curl -s -X PUT "$update6DnsApi"  -H "X-Auth-Email: $email" -H "X-Auth-Key: $password" -H "Content-Type:application/json" --data "{\"type\":\"$recType6\",\"name\":\"$hostname\",\"content\":\"$ip6Addr\",\"proxied\":$recordProxv6}");
 	fi;
 	res6Success=$(echo "$res6" | jq -r ".success");
 fi
