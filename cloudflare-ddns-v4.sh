@@ -16,7 +16,7 @@ ipAddr="$4"
 
 count=$(echo "$text" | grep -o "|" | wc -l)
 if [[ $count -ne 1 ]]; then
-    echo "email|password error";
+    echo "badparam";
     exit 1;
 fi
 email=$(echo "$text" | cut -d '|' -f 1)
